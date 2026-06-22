@@ -1,15 +1,22 @@
 package juegoderoles;
 
-public abstract class Personajes {
+import java.util.ArrayList;
+import java.util.List;
 
+public abstract class Personajes {
+// Inventario y Equipamiento
     protected String nombre;
     protected int vida, ataque, nivel;
+    protected List<Objeto> inventario;
+    protected Objeto equipado;
 
     public Personajes(String nombre, int vida, int ataque) {
         this.nombre = nombre;
         this.vida = vida;
         this.ataque = ataque;
         this.nivel = 1;
+        this.inventario = new ArrayList<>();
+        this.equipado = null;
     }
 
     public String getNombre() {
@@ -50,6 +57,44 @@ public abstract class Personajes {
 
     public void subirNivel() {
         this.nivel++;
+    }
+
+    public void agregarObjeto(Objeto objeto) {
+        inventario.add(objeto);
+    }
+
+    public boolean equiparObjeto(Objeto objeto) {
+        if (inventario.contains(objeto)) {
+            equipado = objeto;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean equiparObjeto(String nombreObjeto) {
+        for (Objeto objeto : inventario) {
+            if (objeto.getNombre().equalsIgnoreCase(nombreObjeto)) {
+                equipado = objeto;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void desequipar() {
+        equipado = null;
+    }
+
+    public Objeto getObjetoEquipado() {
+        return equipado;
+    }
+
+    public int getBonusAtaqueEquipado() {
+         return equipado != null ? equipado.getBonusAtaque() : 0;
+    }
+
+    public int getBonusDefensaEquipado() {
+        return equipado != null ? equipado.getBonusDefensa() : 0;
     }
 
     public abstract int atacar();

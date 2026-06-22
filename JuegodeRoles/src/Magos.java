@@ -20,14 +20,12 @@ public class Magos extends Personajes {
 
     @Override
     public int atacar() {
-        return this.ataque + (this.potenciaMagica / 2);
+        return this.ataque + (this.potenciaMagica / 2) + getBonusAtaqueEquipado();
     }
 
     @Override
     public int defender() {
-
         System.out.println(this.nombre + " crea un escudo mágico.");
-
-        return this.potenciaMagica / 2;
+        return (this.potenciaMagica / 2) + getBonusDefensaEquipado();
     }
 }

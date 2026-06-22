@@ -28,12 +28,12 @@ public class Guerreros extends Personajes {
 
     @Override
     public int atacar() {
-        return this.ataque + this.fuerzaFisica;
+        return this.ataque + this.fuerzaFisica + getBonusAtaqueEquipado();
     }
 
     @Override
     public int defender() {
-        return this.armadura;
+        return this.armadura + getBonusDefensaEquipado();
     }
 
 }
