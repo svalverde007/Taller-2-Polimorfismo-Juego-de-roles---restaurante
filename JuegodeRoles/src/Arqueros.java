@@ -1,4 +1,3 @@
-package juegoderoles;
 
 public class Arqueros extends Personajes {
 
@@ -8,6 +7,9 @@ public class Arqueros extends Personajes {
         super(nombre, vida, ataque);
         this.cantidadFlechas = cantidadFlechas;
         this.precision = precision;
+        // configurar energía y cooldown para arquero
+        setEnergiaMax(70);
+        setCooldownEspecial(2);
     }
 
     public int getCantidadFlechas() {
@@ -30,16 +32,26 @@ public class Arqueros extends Personajes {
     public int atacar() {
         if (cantidadFlechas > 0) {
             cantidadFlechas--;
-            return this.ataque + this.precision;
+            return this.ataque + this.precision + getBonusAtaqueEquipado();
         }
-        return this.ataque;
-
+        return this.ataque + getBonusAtaqueEquipado();
     }
 
     @Override
     public int defender() {
-        return 5;
+        return 5 + getBonusDefensaEquipado();
+    }
 
+    @Override
+    protected int costoHabilidadEspecial() {
+        return 10;
+    }
+
+    @Override
+    protected void habilidadEspecial(Personajes objetivo) {
+        int danio = this.atacar() + 10; // tiro certero
+        objetivo.recibirDanio(danio);
+        System.out.println(this.nombre + " usa Tiro Certero y causa " + danio + " de daño a " + objetivo.getNombre());
     }
 
 }

@@ -1,4 +1,3 @@
-package juegoderoles;
 
 public class Guerreros extends Personajes {
 
@@ -8,6 +7,9 @@ public class Guerreros extends Personajes {
         super(nombre, vida, ataque);
         this.fuerzaFisica = fuerzaFisica;
         this.armadura = armadura;
+        // configurar energía y cooldown específicos de guerrero
+        setEnergiaMax(60);
+        setCooldownEspecial(2);
     }
 
     public int getFuerzaFisica() {
@@ -28,12 +30,24 @@ public class Guerreros extends Personajes {
 
     @Override
     public int atacar() {
-        return this.ataque + this.fuerzaFisica;
+        return this.ataque + this.fuerzaFisica + getBonusAtaqueEquipado();
     }
 
     @Override
     public int defender() {
-        return this.armadura;
+        return this.armadura + getBonusDefensaEquipado();
+    }
+
+    @Override
+    protected int costoHabilidadEspecial() {
+        return 15;
+    }
+
+    @Override
+    protected void habilidadEspecial(Personajes objetivo) {
+        int danio = this.atacar() + 15; // golpe poderoso
+        objetivo.recibirDanio(danio);
+        System.out.println(this.nombre + " usa Golpe Poderoso y causa " + danio + " de daño a " + objetivo.getNombre());
     }
 
 }
