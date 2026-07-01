@@ -1,0 +1,56 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package juegorolessolid;
+
+/**
+ *
+ * @author Sexxxrvio
+ */
+public class BolaDeFuego  implements Habilidad {
+
+    private int cooldownActual;
+
+    @Override
+        public String getNombre() {
+        return "Bola de Fuego";
+    }
+
+    @Override
+        public int getCostoEnergia() {
+        return 40;
+    }
+
+    @Override
+        public int getCooldownMaximo() {
+        return 3;
+    }
+
+    @Override
+        public void ejecutar(Personajes lanzador, Personajes objetivo) throws EnergiaInsuficienteException {
+        if (lanzador.getEnergia() < getCostoEnergia()) {
+            throw new EnergiaInsuficienteException(lanzador.getNombre(), lanzador.getEnergia(), getCostoEnergia());
+        }
+        lanzador.setEnergia(lanzador.getEnergia() - getCostoEnergia());
+        int danio = lanzador.getAtaque() * 3;
+        objetivo.recibirDanio(danio);
+        cooldownActual = getCooldownMaximo();
+        System.out.println(lanzador.getNombre() + " lanza Bola de Fuego y causa " + danio + " de daño!");
+    }
+
+    public int getCooldownActual() {
+        return cooldownActual;
+    }
+
+    public void reducirCooldown() {
+        if (cooldownActual > 0) {
+            cooldownActual--;
+        }
+    }
+
+    public boolean estaDisponible() {
+        return cooldownActual == 0;
+    }
+
+}
